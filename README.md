@@ -1,175 +1,188 @@
 # EngLib
-##1 core: 3/5/2021
 
-###class:
+##1 core:  3/5/2021
 
-	+ **pool** (2mem) : att: PriorQueue<Vocab> = vocab; num_vocab, (enum) CompleteState{DONE, FAILED}
+	###class:
 	
-		=> userPool: store user state 
+		+ **pool** (2mem) : att: PriorQueue<Vocab> = vocab; num_vocab, (enum) CompleteState{DONE, FAILED} => Hao-(11/05/2021)
 		
-			. case: add(new_vocab) -> isExist(new_vocab): check ?, why?
+			=> userPool: store user state 
 			
-		=> refPool: refference (load file json) => 
+				. case: add(new_vocab) -> isExist(new_vocab): check ?, why?
+				
+			=> refPool: refference (load file json) => GET API (done)
+				
+		+ **vocab** (1mem) => Hao-(15/05/2021)
 		
-			. wordList: json {num_vocab, vocab:[primary key, mean, question:[quest_types], essential,etc: sub key (synonym)]} - (1mem: Thuan)-(18/04/2021)
+			=> att = wotdList
+
+			=> method: 
+
+				. parseString
+
+		+ **Account** (1mem: Phuoc)-(15/05/2021)
+
+			. Account.kt
+
+			. AccountViewModel.kt
+
+			. AccountViewModelFactory.kt
+
+			. AccountSingleton.kt
 			
-	+ **vocab** (1mem) => Thuan-(02/05/2021)
-	
-		=> att = wotdList
+			. file to store localMem (csv/json/xml/...)
 
-		=> method: 
-
-			. parseString
-
-	+ **Account** (1mem: Phuoc)-(02/05/2021)
-
-		. Account.kt
-
-		. AccountViewModel.kt
-
-		. AccountViewModelFactory.kt
-
-		. AccountSingleton.kt
 ##2 workflow: 10/5/2021
 
 => nullable_case
 
-###Utils: 
+	###Utils: 
 
-	+ **Store**: 
+		+ **Store**: 
 
-		=> LOADprocess
+			=> LOADprocess
 
-		=> STOREprocess
+			=> STOREprocess
 
-	+ **Configuration**: => export file config (1mem: Khang)-(09/05/2021)
+		+ **Configuration**: => export file config (1mem: Khang)-(20/05/2021)
 
-		. Configuration.kt
+			. Configuration.kt
 
-		. ConfigurationViewModel.kt
+			. ConfigurationViewModel.kt
 
-		. ConfigurationViewModelFactory.kt
+			. ConfigurationViewModelFactory.kt
 
-		. ConfigurationSingleton.kt
+			. ConfigurationSingleton.kt
 
-###Activity (KOTLIN file, LAYOUT file):
+	###Activity (KOTLIN file, LAYOUT file):
 
-	+ **Introduce**: (1mem: Quyen)-(09/05/2021)
+		+ **Introduce**: (1mem: Quyen)-(11/05/2021)
 
-		+ SplashActivity (contains Logo: name)
+			+ SplashActivity (contains Logo: name)
 
-		+ OnboardingActivity
+		+ **Login**: (2mem: Phuoc, Hao)
 
-		+ WelcomeActivity
+			+ **SignupActivity** (contains gmail, username, password) - (1mem: Phuoc)-(20/05/2021)
 
-	+ **Login**: (2mem: Phuoc, Hao)
+				. post api to ggsheet
+				
+				. transfer to: LoginActivity
 
-		+ **LoginActivity** (contains username, password) - (1mem: Phuoc)-(09/05/2021)
+			+ **LoginActivity** (contains username, password) - (1mem: Phuoc)-(20/05/2021)
+			
+				. get api from ggsheet 
+				
+				-> authen: correct 
 
-			. transfer to: QuestionActivity
+				. transfer to: QuestionFragment (store data of account)
+				
+				-> authen: fail 
+				
+				. transfer to: DialogFrament
 
-		+ **SignupActivity** (contains fullname, username, password) - (1mem: Phuoc)-(09/05/2021)
+			+ **QuestionFragment** - (1mem: Hao)-(25/05/2021)
 
-			. transfer to: LoginActivity
+				. (num_quest follow file config) contains FAILED_button
 
-		+ **QuestionActivity** - (1mem: Hao)-(09/05/2021)
+				. null_case: user_list = null => notification.INIT (enum)
 
-			. (num_quest follow file config) contains FAILED_button
+				+ **ABCDActivity** (ABCD)
 
-			. null_case: user_list = null => INIT_Notification
+				+ **FillActivity** (fill)
 
-			+ **ABCDActivity** (ABCD)
+				+ **BoolActivity** (T/F)
 
-			+ **FillActivity** (fill)
+				. loop follow numQuest in config file
 
-			+ **BoolActivity** (T/F)
+			+ *NotificationDialog*: - (1mem: Quyen)-(22/05/2021)
 
-			. loop follow numQuest in config file
+				. transfer to: HomeActivity
 
-		+ *NotificationDialog*: - (1mem: Phuoc)-(09/05/2021)
+				. PASSED 
 
-			. transfer to: HomeActivity
+				. FAILED:
 
-			. PASSED 
+					- wrong reply
 
-			. FAILED:
+					- click btnGiveup  => Update CompleteState => devolope (score)
 
-				- wrong reply
+				. INIT: 
 
-				- click btnGiveup  => Update CompleteState => devolope (score)
+					=> ask to add: transfer to: HomeActivity
 
-			. INIT: 
+						yes => setup: RegisterFragment
 
-				=> ask to add: 
+						no  => setup: blankFragment (ex: user)
 
-					yes => transfer to: RegisterActivity
+		+ **HomeActivity**: (3mem)
+			
+			layout: navigationBar => action: trasfer to:
 
-					no  => transfer to: HomeActivity
+			+ **btnRegister** 	-> transfer to: **RegisterFragment** (2mem: Thuan, Khang)-(22/05/2021)
 
-	+ **HomeActivity**: (3mem)
+				. add new word into userPool 	
 
-		+ **btnRegister** 	-> transfer to: **RegisterActivity** (1mem: Thuan)-(09/05/2021)
+				=> input: 	priKey (edt)
+				
+				=> check by btnRegister
 
-			. add new word into userPool 	
+					+ newWord.verify() | verify(priKey: String) : check new word whether exists in dictionaryapi or not (support: Hao)
 
-			=> input: 	priKey
+						- output: 
+						
+						NOK - DialogErrorNotify/ tvErrorNotify => loop
 
-				+ newWord.verify() | userPool.verify(priKey: String) : check new word whether exists in WordList or not 
+						OK 	- newWord.addUserPool(userPool: UserPool) | userPool.addNew(priKey: String) (authen for account - support: Phuoc)
 
-					- output: 
-					
-					NOK - Dialog => loop
+					+ Display 	=> output: 	vocab : word_item_view 
 
-					OK 	- newWord.addUserPool(userPool: UserPool) | userPool.addNew(priKey: String)
+			+ **btnPrint** 		-> transfer to: **PrintFragment** (2mem: Khang, Hao)-(20/05/2021)
 
-				+ Display 						=> output: 	vocab
+				. using:
 
-		+ **btnPrint** 		-> transfer to: **PrintActivity** (1mem: Hao)-(09/05/2021)
+					+ ui: 			ReclyclerView
 
-			. using:
+					+ dataset:		<>pool
 
-				+ ui: 				ReclyclerView
+					+ item:			word 
 
-				+ dataset:			<>pool
+					+ itemAdapter:		*PoolAdapter* contains *ViewHolder* (using for itemView)
 
-				+ item:				word 
+					+ layoutManager:	LinearLayoutManager / Grid
 
-				+ itemAdapter:		*PoolAdapter* contains *ViewHolder* (using for itemView)
+					=> itemView:		word_item_view (ConstrainLayout contains {tvPriKey; tvDescription; btnPriorityStar})
 
-				+ layoutManager:	LinearLayoutManager 
+						=> set onClick: show *DetailsItemDialog*
 
-				=> itemView:		word_item_view (ConstrainLayout contains {tvPriKey; tvDescription; btnPriorityStar})
+				. *ListUserReclyclerView*: print(userPool)
 
-					=> set onClick: show *DetailsItemDialog*
+				. *ListDictReclyclerView*: print(refPool) 
 
-			. *ListUserReclyclerView*: print(userPool)
+					=> *DetailsItemDialog* contains: btnAdd using to add this word into userPool 
 
-			. *ListDictReclyclerView*: print(refPool) 
+			+ **btnSetup** 		-> transfer to: **SetupFragment** (1mem: Khang)-(20/05/2021)
 
-				=> *DetailsItemDialog* contains: btnAdd using to add this word into userPool 
+				. waitTime for displaying question (waitTimeQuest)
 
-		+ **btnSetup** 		-> transfer to: **SetupAcitvity** (1mem: Khang)-(09/05/2021)
+				. number of questions (numQuest)
 
-			. waitTime for displaying question (waitTimeQuest)
+				..
 
-			. number of questions (numQuest)
+				=> use Config class => modify file config (csv)
 
-			..
+			+ **btnDevelop**	:  New_Feature (score)
 
-			=> use Config class => modify file config
 
-		+ **btnDevelop**	:  New_Feature (score)
 
-Layout: => Hao
 ##3 git, github (2mem: Phuoc, Khang) 5/4/2021
 
-=> entire process
+ => entire process
 
 ##4 report (1mem: Hao) 1/6/2021
 
-=> document (word)
+ => document 		(word)
 
-=> presentation (powerpoint)
+ => presentation 	(powerpoint)
 
 ##5 unitest (1mem: Thuan) 12/4/2021
 
@@ -181,29 +194,35 @@ store_pool
 
 fisrt: init userPool
 
-using time:
+using time: 
 
-(Act)Login:
+(Act)Login: 
 
 => add new word = galaxy (pri)
 
-compare refPool => true: store userPool
+compare refPool => true: store userPool 
 
 ---STOREprocess---
 
 => cur_state => save local (exports file user_wordList) => pre_state = cur_state (contains file user_wordList)
 
+
+
 =====
 
-second: init userPool = new (pre_state)
+second: init userPool = new  (pre_state)
+
+
 
 user_list contains only priKey
 
 ---LOADprocess---
 
-loop(num_vocab) vocab = query(priKey)
+loop(num_vocab)
+	vocab = query(priKey)
 
-userPool.add(vocab)
+	userPool.add(vocab)
+
 using time: login: display question(pri) [follow essential]
 
 quest (mean?)
@@ -214,7 +233,7 @@ display: priKey
 
 => fill: non
 
-=> t/f:
+=> t/f: 
 
 quest (pri?)
 
@@ -222,18 +241,20 @@ display: mean
 
 => ABCD: pri
 
-=> fill:
+=> fill: 
 
-=> t/f: {num_vocab: 20,
+=> t/f: {num_vocab: 20, 
 
- vocab:[priKey: mean,
+	 vocab:[priKey: mean,
 
-	mean: to express or represent something such as an idea, thought, or fact, 
+		mean: to express or represent something such as an idea, thought, or fact, 
 
-	question: [mean?: [ABCD: yes, fill: no, t/f: yes]; priKey?: [ABCD: yes, fill: no, t/f: yes]],
+		question: [mean?: [ABCD: yes, fill: no, t/f: yes]; priKey?: [ABCD: yes, fill: no, t/f: yes]],
 
-	essential: high,
+		essential: high,
 
-	etc: sub key (synonym)],
+		etc: sub key (synonym)],
 
-}
+	}
+
+
