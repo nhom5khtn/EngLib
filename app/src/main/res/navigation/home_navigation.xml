@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@+id/navigation_setup">
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.nhom5.englib.ui.register.RegisterFragment"
+        android:label="@string/title_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/navigation_print"
+        android:name="com.nhom5.englib.ui.print.PrintFragment"
+        android:label="@string/title_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/navigation_setup"
+        android:name="com.nhom5.englib.ui.setup.SetupFragment"
+        android:label="@string/title_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/navigation_develop"
+        android:name="com.nhom5.englib.ui.develop.DevelopFragment"
+        android:label="@string/title_register"
+        tools:layout="@layout/fragment_register" />
+
+
+
+</navigation>

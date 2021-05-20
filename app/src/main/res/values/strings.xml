@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EngLib</string>
+    <string name="title_register">Register</string>
+    <string name="title_print">Print</string>
+    <string name="title_setup">Setup</string>
+    <string name="title_develop">Develop</string>
+
+
+    <string name="label_format">Value: %1$.0f</string>
 </resources>
