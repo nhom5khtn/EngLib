@@ -1,8 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
+androidExtensions {
+    experimental = true
+}
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -30,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -42,4 +50,17 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-core:17.2.3'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
+    implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.2'
+
+    //viewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
+
