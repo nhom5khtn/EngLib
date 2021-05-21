@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <EditText
+            android:id="@+id/username_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Username"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black">
+        </EditText>
+
+        <EditText
+            android:id="@+id/email_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Email"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/password_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black">
+
+        </EditText>
+
+        <Button
+            android:id="@+id/signup_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign up"
+            android:layout_marginTop="25dp"
+            android:background="@color/green_1"
+            app:backgroundTint="@color/green_1">
+
+        </Button>
+    </LinearLayout>
+
+
+
+</RelativeLayout>
