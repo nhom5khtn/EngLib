@@ -2,6 +2,7 @@ package com.nhom5.englib.ui.setup
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,6 @@ class SetupFragment:Fragment() {
     private lateinit var viewModel: SetupViewModel
 
     private lateinit var viewModelFactory: SetupViewModelFactory
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +52,21 @@ class SetupFragment:Fragment() {
         saveConfig?.edit {
             putString("DEFAULT_WAIT_TIME","10.0F")
             putString("DEFAULT_NUM_QUEST","30.0F")
+        }
+
+        val savedWaitTime = saveConfig?.getString("WAIT_TIME","10.0F")
+        val savedNumQuest = saveConfig?.getString("NUM_QUEST","30.0F")
+        saveConfig?.edit {
+            putString("WAIT_TIME",waitTime.value.toString())
+            putString("NUM_QUEST",numQuest.value.toString())
+        }
+        Log.e(">>>>> savedWaitTime","$savedWaitTime")
+        Log.e(">>>>> savedNumQuest","$savedNumQuest")
+        if (savedWaitTime != null) {
+            binding.sWaitTime.setValue(savedWaitTime.toFloat())
+        }
+        if (savedNumQuest != null) {
+            binding.sNumQuest.setValue(savedNumQuest.toFloat())
         }
 
         /*
